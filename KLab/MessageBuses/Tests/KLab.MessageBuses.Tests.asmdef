@@ -1,0 +1,14 @@
+{
+    "name": "KLab.MessageBuses.Tests",
+    "references": [
+        "KLab.MessageBuses"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false
+}

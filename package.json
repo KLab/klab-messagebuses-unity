@@ -1,0 +1,7 @@
+{
+    "name": "com.klab.messagebuses",
+    "description": "Message bus pattern library",
+    "version": "1.0.0-preview",
+    "unity": "2018.2",
+    "displayName": "KLab Message Buses"
+}
