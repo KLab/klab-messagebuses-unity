@@ -1,12 +1,15 @@
 /*
 
+!/Examples
+!/Runtime
+!/Tests
 !/.gitignore
-!/KLab.meta
+!/Examples.meta
 !/LICENSE
 !/LICENSE.meta
 !/package.json
 !/package.json.meta
 !/README.md
 !/README.md.meta
-
-!/KLab/
+!/Runtime.meta
+!/Tests.meta
