@@ -6,22 +6,22 @@
 using NUnit.Framework;
 
 
-namespace KLab.MessageBuses.Tests
+namespace KLab.MessageBuses
 {
     /// <summary>
     /// Message bus tests
     /// </summary>
-    internal sealed class MessageBusTests
+    internal sealed class Tests
     {
         /// <summary>
         /// Test message
         /// </summary>
-        private struct TestMessage
+        private class TestMessage
         {
             /// <summary>
             /// Message contents
             /// </summary>
-            public string Contents;
+            public string Contents = "TestMessage";
         }
 
         /// <summary>

@@ -9,14 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 
 
-namespace KLab.MessageBuses.Examples
+namespace KLab.MessageBuses
 {
     /// <summary>
-    /// Advanced message bus samples
+    /// Advanced message bus usage exsamples
     /// </summary>
-    internal sealed class AdvancedMessageBusExamples
+    internal sealed class AdvancedExamples
     {
-        #region GetAllAnyConnectionProperties
+        #region FindAllAnyConnectionProperties
 
         /// <summary>
         /// Signature of connection query properties
@@ -26,10 +26,10 @@ namespace KLab.MessageBuses.Examples
 
 
         /// <summary>
-        /// Finds all waive methods via relfection
+        /// Finds all AnyConnection properties via relfection
         /// </summary>
         [Test]
-        public void GetAllAnyConnectionProperties_Succeds()
+        public void FindAllAnyConnectionProperties()
         {
             // Find waivable types
             var anyConnectionMethods = new List<AnyConnectionDelegate>();
@@ -80,7 +80,7 @@ namespace KLab.MessageBuses.Examples
 
         #endregion
 
-        #region GetAllWaiveMethods
+        #region FindAllWaiveMethods
 
         /// <summary>
         /// Signature of waive methods
@@ -100,10 +100,10 @@ namespace KLab.MessageBuses.Examples
 
 
         /// <summary>
-        /// Finds all waive methods via relfection
+        /// Finds all Waive() methods via relfection
         /// </summary>
         [Test]
-        public void GetAllWaiveMethods_Succeds()
+        public void FindAllWaiveMethods()
         {
             // Find waivable types
             var waiveMethods = new List<WaiveDelegate>();
