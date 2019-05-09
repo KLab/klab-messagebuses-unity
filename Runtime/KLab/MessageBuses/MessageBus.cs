@@ -12,6 +12,8 @@ namespace KLab.MessageBuses
 {
     #region Signal Buses
 
+    #region Basic
+
     /// <summary>
     /// Signal bus
     /// </summary>
@@ -114,7 +116,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly Broadcaster Broadcaster = new Broadcaster();
+        private readonly Broadcaster Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -123,6 +125,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public MessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new Broadcaster(options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -163,7 +179,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Broadcaster
         /// </summary>
-        private readonly OrderedBroadcaster<TOrder> Broadcaster = new OrderedBroadcaster<TOrder>();
+        private readonly OrderedBroadcaster<TOrder> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -172,6 +188,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public OrderedMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new OrderedBroadcaster<TOrder>(options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -203,6 +233,9 @@ namespace KLab.MessageBuses
         }
     }
 
+    #endregion
+
+
     #region Deferred
 
     /// <summary>
@@ -213,7 +246,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly DeferredBroadcaster Broadcaster = new DeferredBroadcaster();
+        private readonly DeferredBroadcaster Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -222,6 +255,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public DeferredMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new DeferredBroadcaster(options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -279,7 +326,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly DeferredOrderedBroadcaster<TOrder> Broadcaster = new DeferredOrderedBroadcaster<TOrder>();
+        private readonly DeferredOrderedBroadcaster<TOrder> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -288,6 +335,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public DeferredOrderedMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new DeferredOrderedBroadcaster<TOrder>(options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -338,6 +399,7 @@ namespace KLab.MessageBuses
 
     #endregion
 
+
     #region Addressable
 
     /// <summary>
@@ -349,7 +411,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Broadcaster
         /// </summary>
-        private readonly AddressableBroadcaster<TAddress> Broadcaster = new AddressableBroadcaster<TAddress>();
+        private readonly AddressableBroadcaster<TAddress> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -358,6 +420,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public AddressableMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new AddressableBroadcaster<TAddress>(options.AddressesCapacity, options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -404,7 +480,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Broadcaster
         /// </summary>
-        private readonly AddressableOrderedBroadcaster<TAddress, TOrder> Broadcaster = new AddressableOrderedBroadcaster<TAddress, TOrder>();
+        private readonly AddressableOrderedBroadcaster<TAddress, TOrder> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -413,6 +489,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public AddressableOrderedMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new AddressableOrderedBroadcaster<TAddress, TOrder>(options.AddressesCapacity, options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -457,7 +547,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly AddressableDeferredBroadcaster<TAddress> Broadcaster = new AddressableDeferredBroadcaster<TAddress>();
+        private readonly AddressableDeferredBroadcaster<TAddress> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -466,6 +556,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public AddressableDeferredMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new AddressableDeferredBroadcaster<TAddress>(options.AddressesCapacity, options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -545,7 +649,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Broadcaster
         /// </summary>
-        private readonly AddressableDeferredOrderedBroadcaster<TAddress, TOrder> Broadcaster = new AddressableDeferredOrderedBroadcaster<TAddress, TOrder>();
+        private readonly AddressableDeferredOrderedBroadcaster<TAddress, TOrder> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -554,6 +658,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public AddressableDeferredOrderedMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new AddressableDeferredOrderedBroadcaster<TAddress, TOrder>(options.AddressesCapacity, options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -626,7 +744,10 @@ namespace KLab.MessageBuses
 
     #endregion
 
+
     #region Message Buses
+
+    #region Basic
 
     /// <summary>
     /// Message bus
@@ -637,7 +758,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly Broadcaster<TMessage> Broadcaster = new Broadcaster<TMessage>();
+        private readonly Broadcaster<TMessage> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -646,6 +767,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public MessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new Broadcaster<TMessage>(options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -688,7 +823,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Broadcaster
         /// </summary>
-        private readonly OrderedBroadcaster<TOrder, TMessage> Broadcaster = new OrderedBroadcaster<TOrder, TMessage>();
+        private readonly OrderedBroadcaster<TOrder, TMessage> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -697,6 +832,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public OrderedMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new OrderedBroadcaster<TOrder, TMessage>(options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -729,6 +878,9 @@ namespace KLab.MessageBuses
         }
     }
 
+    #endregion
+
+
     #region Deferred
 
     /// <summary>
@@ -740,7 +892,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly DeferredBroadcaster<TMessage> Broadcaster = new DeferredBroadcaster<TMessage>();
+        private readonly DeferredBroadcaster<TMessage> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -749,6 +901,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public DeferredMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new DeferredBroadcaster<TMessage>(options.ConnectionsCapacity, options.MessagesCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -807,7 +973,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly DeferredOrderedBroadcaster<TOrder, TMessage> Broadcaster = new DeferredOrderedBroadcaster<TOrder, TMessage>();
+        private readonly DeferredOrderedBroadcaster<TOrder, TMessage> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -816,6 +982,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public DeferredOrderedMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new DeferredOrderedBroadcaster<TOrder, TMessage>(options.ConnectionsCapacity, options.MessagesCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -867,6 +1047,7 @@ namespace KLab.MessageBuses
 
     #endregion
 
+
     #region Addressable
 
     /// <summary>
@@ -879,7 +1060,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Broadcaster
         /// </summary>
-        private readonly AddressableBroadcaster<TAddress, TMessage> Broadcaster = new AddressableBroadcaster<TAddress, TMessage>();
+        private readonly AddressableBroadcaster<TAddress, TMessage> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -888,6 +1069,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public AddressableMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new AddressableBroadcaster<TAddress, TMessage>(options.AddressesCapacity, options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -936,7 +1131,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Broadcaster
         /// </summary>
-        private readonly AddressableOrderedBroadcaster<TAddress, TOrder, TMessage> Broadcaster = new AddressableOrderedBroadcaster<TAddress, TOrder, TMessage>();
+        private readonly AddressableOrderedBroadcaster<TAddress, TOrder, TMessage> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -945,6 +1140,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public AddressableOrderedMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new AddressableOrderedBroadcaster<TAddress, TOrder, TMessage>(options.AddressesCapacity, options.ConnectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -991,7 +1200,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly AddressableDeferredBroadcaster<TAddress, TMessage> Broadcaster = new AddressableDeferredBroadcaster<TAddress, TMessage>();
+        private readonly AddressableDeferredBroadcaster<TAddress, TMessage> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -1000,6 +1209,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public AddressableDeferredMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new AddressableDeferredBroadcaster<TAddress, TMessage>(options.AddressesCapacity, options.ConnectionsCapacity, options.MessagesCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -1082,7 +1305,7 @@ namespace KLab.MessageBuses
         /// <summary>
         /// Broadcaster
         /// </summary>
-        private readonly AddressableDeferredOrderedBroadcaster<TAddress, TOrder, TMessage> Broadcaster = new AddressableDeferredOrderedBroadcaster<TAddress, TOrder, TMessage>();
+        private readonly AddressableDeferredOrderedBroadcaster<TAddress, TOrder, TMessage> Broadcaster;
 
         /// <summary>
         /// Flag whether bus has any connections
@@ -1091,6 +1314,20 @@ namespace KLab.MessageBuses
         {
             get { return Broadcaster.AnyConnection; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        public AddressableDeferredOrderedMessageBus()
+        {
+            var options = MessageBusOptions.GetForType(GetType());
+            Broadcaster = new AddressableDeferredOrderedBroadcaster<TAddress, TOrder, TMessage>(options.AddressesCapacity, options.ConnectionsCapacity, options.MessagesCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>

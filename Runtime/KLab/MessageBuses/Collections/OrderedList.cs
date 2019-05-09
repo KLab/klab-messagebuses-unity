@@ -19,7 +19,7 @@ namespace KLab.MessageBuses.Collections
         /// <summary>
         /// Elements
         /// </summary>
-        private readonly List<ElementsEntry> Elements = new List<ElementsEntry>();
+        private readonly List<ElementsEntry> Elements;
 
 
         /// <summary>
@@ -39,6 +39,20 @@ namespace KLab.MessageBuses.Collections
         {
             get { return Elements[index].Item; }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="initialCapacity">Capacity</param>
+        public OrderedList(int initialCapacity)
+        {
+            Elements = new List<ElementsEntry>(initialCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>

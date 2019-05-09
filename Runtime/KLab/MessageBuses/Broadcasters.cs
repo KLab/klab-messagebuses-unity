@@ -12,6 +12,8 @@ namespace KLab.MessageBuses.Broadcasters
 {
     #region Signal Broadcasters
 
+    #region Basic
+
     /// <summary>
     /// Signal broadcaster
     /// </summary>
@@ -20,7 +22,7 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly List<Action> Connections = new List<Action>();
+        private readonly List<Action> Connections;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -29,6 +31,20 @@ namespace KLab.MessageBuses.Broadcasters
         {
             get { return (Connections.Count > 0); }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public Broadcaster(int connectionsCapacity)
+        {
+            Connections = new List<Action>(connectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -88,7 +104,7 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly OrderedList<TOrder, Action> Connections = new OrderedList<TOrder, Action>();
+        private readonly OrderedList<TOrder, Action> Connections;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -97,6 +113,20 @@ namespace KLab.MessageBuses.Broadcasters
         {
             get { return (Connections.Count > 0); }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public OrderedBroadcaster(int connectionsCapacity)
+        {
+            Connections = new OrderedList<TOrder, Action>(connectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -146,6 +176,9 @@ namespace KLab.MessageBuses.Broadcasters
         }
     }
 
+    #endregion
+
+
     #region Deferred
 
     /// <summary>
@@ -156,7 +189,7 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly List<Action> Connections = new List<Action>();
+        private readonly List<Action> Connections;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -171,6 +204,20 @@ namespace KLab.MessageBuses.Broadcasters
         /// Control whether signal should be dispatched
         /// </summary>
         private bool ShouldSignal { get; set; }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public DeferredBroadcaster(int connectionsCapacity)
+        {
+            Connections = new List<Action>(connectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -256,12 +303,7 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly OrderedList<TOrder, Action> Connections = new OrderedList<TOrder, Action>();
-
-        /// <summary>
-        /// Control whether signal should be dispatched
-        /// </summary>
-        private bool ShouldSignal { get; set; }
+        private readonly OrderedList<TOrder, Action> Connections;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -270,6 +312,26 @@ namespace KLab.MessageBuses.Broadcasters
         {
             get { return (Connections.Count > 0); }
         }
+
+
+        /// <summary>
+        /// Control whether signal should be dispatched
+        /// </summary>
+        private bool ShouldSignal { get; set; }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public DeferredOrderedBroadcaster(int connectionsCapacity)
+        {
+            Connections = new OrderedList<TOrder, Action>(connectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -349,6 +411,7 @@ namespace KLab.MessageBuses.Broadcasters
 
     #endregion
 
+
     #region Addressable
 
     /// <summary>
@@ -360,7 +423,12 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Broadcasters
         /// </summary>
-        private readonly AddressableList<TAddress, Broadcaster> Broadcasters = new AddressableList<TAddress, Broadcaster>();
+        private readonly AddressableList<TAddress, Broadcaster> Broadcasters;
+
+        /// <summary>
+        /// Connections capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int ConnectionsCapacity;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -400,7 +468,7 @@ namespace KLab.MessageBuses.Broadcasters
 
                 if (broadcaster == null)
                 {
-                    broadcaster = new Broadcaster();
+                    broadcaster = new Broadcaster(ConnectionsCapacity);
 
 
                     Broadcasters.Add(address, broadcaster);
@@ -410,6 +478,22 @@ namespace KLab.MessageBuses.Broadcasters
                 return broadcaster;
             }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="addressesCapacity">Addresses capacity</param>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public AddressableBroadcaster(int addressesCapacity, int connectionsCapacity)
+        {
+            Broadcasters = new AddressableList<TAddress, Broadcaster>(addressesCapacity);
+            ConnectionsCapacity = connectionsCapacity;
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -456,7 +540,12 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Broadcasters
         /// </summary>
-        private readonly AddressableList<TAddress, OrderedBroadcaster<TOrder>> Broadcasters = new AddressableList<TAddress, OrderedBroadcaster<TOrder>>();
+        private readonly AddressableList<TAddress, OrderedBroadcaster<TOrder>> Broadcasters;
+
+        /// <summary>
+        /// Connections capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int ConnectionsCapacity;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -496,7 +585,7 @@ namespace KLab.MessageBuses.Broadcasters
 
                 if (broadcaster == null)
                 {
-                    broadcaster = new OrderedBroadcaster<TOrder>();
+                    broadcaster = new OrderedBroadcaster<TOrder>(ConnectionsCapacity);
 
 
                     Broadcasters.Add(address, broadcaster);
@@ -506,6 +595,22 @@ namespace KLab.MessageBuses.Broadcasters
                 return broadcaster;
             }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="addressesCapacity">Addresses capacity</param>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public AddressableOrderedBroadcaster(int addressesCapacity, int connectionsCapacity)
+        {
+            Broadcasters = new AddressableList<TAddress, OrderedBroadcaster<TOrder>>(addressesCapacity);
+            ConnectionsCapacity = connectionsCapacity;
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -550,7 +655,12 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Broadcasters
         /// </summary>
-        private readonly AddressableList<TAddress, DeferredBroadcaster> Broadcasters = new AddressableList<TAddress, DeferredBroadcaster>();
+        private readonly AddressableList<TAddress, DeferredBroadcaster> Broadcasters;
+
+        /// <summary>
+        /// Connections capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int ConnectionsCapacity;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -590,7 +700,7 @@ namespace KLab.MessageBuses.Broadcasters
 
                 if (broadcaster == null)
                 {
-                    broadcaster = new DeferredBroadcaster();
+                    broadcaster = new DeferredBroadcaster(ConnectionsCapacity);
 
 
                     Broadcasters.Add(address, broadcaster);
@@ -600,6 +710,22 @@ namespace KLab.MessageBuses.Broadcasters
                 return broadcaster;
             }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="addressesCapacity">Addresses capacity</param>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public AddressableDeferredBroadcaster(int addressesCapacity, int connectionsCapacity)
+        {
+            Broadcasters = new AddressableList<TAddress, DeferredBroadcaster>(addressesCapacity);
+            ConnectionsCapacity = connectionsCapacity;
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -686,7 +812,12 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Broadcasters
         /// </summary>
-        private readonly AddressableList<TAddress, DeferredOrderedBroadcaster<TOrder>> Broadcasters = new AddressableList<TAddress, DeferredOrderedBroadcaster<TOrder>>();
+        private readonly AddressableList<TAddress, DeferredOrderedBroadcaster<TOrder>> Broadcasters;
+
+        /// <summary>
+        /// Connections capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int ConnectionsCapacity;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -726,7 +857,7 @@ namespace KLab.MessageBuses.Broadcasters
 
                 if (broadcaster == null)
                 {
-                    broadcaster = new DeferredOrderedBroadcaster<TOrder>();
+                    broadcaster = new DeferredOrderedBroadcaster<TOrder>(ConnectionsCapacity);
 
 
                     Broadcasters.Add(address, broadcaster);
@@ -736,6 +867,22 @@ namespace KLab.MessageBuses.Broadcasters
                 return broadcaster;
             }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="addressesCapacity">Addresses capacity</param>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public AddressableDeferredOrderedBroadcaster(int addressesCapacity, int connectionsCapacity)
+        {
+            Broadcasters = new AddressableList<TAddress, DeferredOrderedBroadcaster<TOrder>>(addressesCapacity);
+            ConnectionsCapacity = connectionsCapacity;
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -814,7 +961,10 @@ namespace KLab.MessageBuses.Broadcasters
 
     #endregion
 
+
     #region Message Broadcasters
+
+    #region Basic
 
     /// <summary>
     /// Immediate, unordered message broadcaster
@@ -825,7 +975,7 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly List<Action<TMessage>> Connections = new List<Action<TMessage>>();
+        private readonly List<Action<TMessage>> Connections;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -834,6 +984,20 @@ namespace KLab.MessageBuses.Broadcasters
         {
             get { return (Connections.Count > 0); }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public Broadcaster(int connectionsCapacity)
+        {
+            Connections = new List<Action<TMessage>>(connectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -890,7 +1054,7 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly OrderedList<TOrder, Action<TMessage>> Connections = new OrderedList<TOrder, Action<TMessage>>();
+        private readonly OrderedList<TOrder, Action<TMessage>> Connections;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -899,6 +1063,20 @@ namespace KLab.MessageBuses.Broadcasters
         {
             get { return (Connections.Count > 0); }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public OrderedBroadcaster(int connectionsCapacity)
+        {
+            Connections = new OrderedList<TOrder, Action<TMessage>>(connectionsCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -947,6 +1125,9 @@ namespace KLab.MessageBuses.Broadcasters
         }
     }
 
+    #endregion
+
+
     #region Deferred
 
     /// <summary>
@@ -958,12 +1139,7 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly List<Action<TMessage>> Connections = new List<Action<TMessage>>();
-
-        /// <summary>
-        /// Message queue
-        /// </summary>
-        private readonly List<TMessage> Messages = new List<TMessage>();
+        private readonly List<Action<TMessage>> Connections;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -972,6 +1148,28 @@ namespace KLab.MessageBuses.Broadcasters
         {
             get { return (Connections.Count > 0); }
         }
+
+
+        /// <summary>
+        /// Message queue
+        /// </summary>
+        private readonly List<TMessage> Messages;
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        /// <param name="messagesCapacity">Message queue capacity</param>
+        public DeferredBroadcaster(int connectionsCapacity, int messagesCapacity)
+        {
+            Connections = new List<Action<TMessage>>(connectionsCapacity);
+            Messages = new List<TMessage>(messagesCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -1058,12 +1256,12 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Connections
         /// </summary>
-        private readonly OrderedList<TOrder, Action<TMessage>> Connections = new OrderedList<TOrder, Action<TMessage>>();
+        private readonly OrderedList<TOrder, Action<TMessage>> Connections;
 
         /// <summary>
         /// Message queue
         /// </summary>
-        private readonly List<TMessage> Messages = new List<TMessage>();
+        private readonly List<TMessage> Messages;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -1072,6 +1270,22 @@ namespace KLab.MessageBuses.Broadcasters
         {
             get { return (Connections.Count > 0); }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        /// <param name="messagesCapacity">Message queue capacity</param>
+        public DeferredOrderedBroadcaster(int connectionsCapacity, int messagesCapacity)
+        {
+            Connections = new OrderedList<TOrder, Action<TMessage>>(connectionsCapacity);
+            Messages = new List<TMessage>(messagesCapacity);
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -1150,6 +1364,7 @@ namespace KLab.MessageBuses.Broadcasters
 
     #endregion
 
+
     #region Addressable
 
     /// <summary>
@@ -1162,7 +1377,12 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Broadcasters
         /// </summary>
-        private readonly AddressableList<TAddress, Broadcaster<TMessage>> Broadcasters = new AddressableList<TAddress, Broadcaster<TMessage>>();
+        private readonly AddressableList<TAddress, Broadcaster<TMessage>> Broadcasters;
+
+        /// <summary>
+        /// Connections capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int ConnectionsCapacity;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -1202,7 +1422,7 @@ namespace KLab.MessageBuses.Broadcasters
 
                 if (broadcaster == null)
                 {
-                    broadcaster = new Broadcaster<TMessage>();
+                    broadcaster = new Broadcaster<TMessage>(ConnectionsCapacity);
 
 
                     Broadcasters.Add(address, broadcaster);
@@ -1212,6 +1432,22 @@ namespace KLab.MessageBuses.Broadcasters
                 return broadcaster;
             }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="addressesCapacity">Addresses capacity</param>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public AddressableBroadcaster(int addressesCapacity, int connectionsCapacity)
+        {
+            Broadcasters = new AddressableList<TAddress, Broadcaster<TMessage>>(addressesCapacity);
+            ConnectionsCapacity = connectionsCapacity;
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -1260,7 +1496,12 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Broadcasters
         /// </summary>
-        private readonly AddressableList<TAddress, OrderedBroadcaster<TOrder, TMessage>> Broadcasters = new AddressableList<TAddress, OrderedBroadcaster<TOrder, TMessage>>();
+        private readonly AddressableList<TAddress, OrderedBroadcaster<TOrder, TMessage>> Broadcasters;
+
+        /// <summary>
+        /// Connections capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int ConnectionsCapacity;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -1300,7 +1541,7 @@ namespace KLab.MessageBuses.Broadcasters
 
                 if (broadcaster == null)
                 {
-                    broadcaster = new OrderedBroadcaster<TOrder, TMessage>();
+                    broadcaster = new OrderedBroadcaster<TOrder, TMessage>(ConnectionsCapacity);
 
 
                     Broadcasters.Add(address, broadcaster);
@@ -1310,6 +1551,22 @@ namespace KLab.MessageBuses.Broadcasters
                 return broadcaster;
             }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="addressesCapacity">Addresses capacity</param>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        public AddressableOrderedBroadcaster(int addressesCapacity, int connectionsCapacity)
+        {
+            Broadcasters = new AddressableList<TAddress, OrderedBroadcaster<TOrder, TMessage>>(addressesCapacity);
+            ConnectionsCapacity = connectionsCapacity;
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -1356,7 +1613,17 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Broadcasters
         /// </summary>
-        private readonly AddressableList<TAddress, DeferredBroadcaster<TMessage>> Broadcasters = new AddressableList<TAddress, DeferredBroadcaster<TMessage>>();
+        private readonly AddressableList<TAddress, DeferredBroadcaster<TMessage>> Broadcasters;
+
+        /// <summary>
+        /// Connections capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int ConnectionsCapacity;
+
+        /// <summary>
+        /// Messages capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int MessagesCapacity;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -1396,7 +1663,7 @@ namespace KLab.MessageBuses.Broadcasters
 
                 if (broadcaster == null)
                 {
-                    broadcaster = new DeferredBroadcaster<TMessage>();
+                    broadcaster = new DeferredBroadcaster<TMessage>(ConnectionsCapacity, MessagesCapacity);
 
 
                     Broadcasters.Add(address, broadcaster);
@@ -1406,6 +1673,24 @@ namespace KLab.MessageBuses.Broadcasters
                 return broadcaster;
             }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="addressesCapacity">Addresses capacity</param>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        /// <param name="messagesCapacity">Message queue capacity</param>
+        public AddressableDeferredBroadcaster(int addressesCapacity, int connectionsCapacity, int messagesCapacity)
+        {
+            Broadcasters = new AddressableList<TAddress, DeferredBroadcaster<TMessage>>(addressesCapacity);
+            ConnectionsCapacity = connectionsCapacity;
+            MessagesCapacity = messagesCapacity;
+        }
+
+        #endregion
 
 
         /// <summary>
@@ -1494,7 +1779,17 @@ namespace KLab.MessageBuses.Broadcasters
         /// <summary>
         /// Broadcasters
         /// </summary>
-        private readonly AddressableList<TAddress, DeferredOrderedBroadcaster<TOrder, TMessage>> Broadcasters = new AddressableList<TAddress, DeferredOrderedBroadcaster<TOrder, TMessage>>();
+        private readonly AddressableList<TAddress, DeferredOrderedBroadcaster<TOrder, TMessage>> Broadcasters;
+
+        /// <summary>
+        /// Connections capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int ConnectionsCapacity;
+
+        /// <summary>
+        /// Messages capacity for <see cref="Broadcasters"/>
+        /// </summary>
+        private readonly int MessagesCapacity;
 
         /// <summary>
         /// Flag whether one or more connections exist
@@ -1534,7 +1829,7 @@ namespace KLab.MessageBuses.Broadcasters
 
                 if (broadcaster == null)
                 {
-                    broadcaster = new DeferredOrderedBroadcaster<TOrder, TMessage>();
+                    broadcaster = new DeferredOrderedBroadcaster<TOrder, TMessage>(ConnectionsCapacity, MessagesCapacity);
 
 
                     Broadcasters.Add(address, broadcaster);
@@ -1544,6 +1839,24 @@ namespace KLab.MessageBuses.Broadcasters
                 return broadcaster;
             }
         }
+
+
+        #region Ctors
+
+        /// <summary>
+        /// Initializes instance
+        /// </summary>
+        /// <param name="addressesCapacity">Addresses capacity</param>
+        /// <param name="connectionsCapacity">Connections capacity</param>
+        /// <param name="messagesCapacity">Message queue capacity</param>
+        public AddressableDeferredOrderedBroadcaster(int addressesCapacity,int connectionsCapacity, int messagesCapacity)
+        {
+            Broadcasters = new AddressableList<TAddress, DeferredOrderedBroadcaster<TOrder, TMessage>>(addressesCapacity);
+            ConnectionsCapacity = connectionsCapacity;
+            MessagesCapacity = messagesCapacity;
+        }
+
+        #endregion
 
 
         /// <summary>
