@@ -6,7 +6,7 @@ can be an effective mechanism for loosen up coupling between systems.
 for using buses in *Unity* with low runtime overhead.
 
 
-## Message Buses
+## Usage
 
 Using a message bus basically consists of 3 steps.
 
@@ -14,7 +14,7 @@ Using a message bus basically consists of 3 steps.
 1. You connect to it (and later disconnect from it)
 1. You send messages through the bus
 
-See below is a minimal example.
+The below is a minimal example.
 (The example uses *Unity* components for handling connecting and sending,
 but you can also use message buses in pure *C#* classes).
 
@@ -105,10 +105,29 @@ simply instantiate the message bus class directly
 instead of getting the global singleton through ```MessageBus.GetBus<T>()```.
 
 
-## Importing Into Unity
+## Unity Import
 
 The library can be imported easily as a Unity package.
 It doesn't have any dependencies on other packages.
+
+
+## Changelog
+
+All notable changes to this project will be documented in this file.
+
+The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
+and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
+
+### [1.1.0] - 2019-05-09
+
+#### Added
+
+- Add options for controlling message bus container capacities
+
+#### Changed
+
+- Rename package from `com.klab.messagebuses` to `com.klab.message-buses`
+- Rename runtime *asmdef* from `KLab.MessageBuses` to `KLab.MessageBuses.Runtime`
 
 
 ## Feedback
