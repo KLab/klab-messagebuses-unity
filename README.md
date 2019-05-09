@@ -2,19 +2,21 @@
 
 While not silver bullets, message buses (or [event buses as *Lumberyard* calls them](https://docs.aws.amazon.com/lumberyard/latest/userguide/ebus-in-depth.html))
 can be an effective mechanism for loosen up coupling between systems.
-*KLab Message Buses for Unity* provides a simple API for using buses in your *Unity* projects with low runtime overhead.
+*KLab Message Buses for Unity* provides a simple API 
+for using buses in *Unity* with low runtime overhead.
 
 
 ## Message Buses
 
-Using a message bus basically consists of just 3 steps.
+Using a message bus basically consists of 3 steps.
 
 1. You declare a message bus
 1. You connect to it (and later disconnect from it)
 1. You send messages through the bus
 
-See below is a minimal example. (The example uses *Unity* components for handling connecting and sending,
-but you can also use message buses in 'pure' *C#* classes).
+See below is a minimal example.
+(The example uses *Unity* components for handling connecting and sending,
+but you can also use message buses in pure *C#* classes).
 
 ```cs
 using KLab.MessageBuses;
@@ -32,15 +34,15 @@ public sealed class Sender : MonoBehaviour
 
 
 
-	private void Start ()
+    private void Start ()
     {
         Bus = MessageBus.GetBus<MyMessageBus>();
-	}
+    }
 
-	private void Update ()
+    private void Update ()
     {
         Bus.Broadcast(Message);
-	}
+    }
 }
 
 
@@ -68,15 +70,45 @@ public sealed class Receiver : MonoBehaviour
 }
 ```
 
-See [here](./KLab/MessageBuses/Runtime/MessageBus.cs) for all types of buses available;
-and [here](./KLab/MessageBuses/Examples/AdvancedMessageBusExamples.cs) or [here](./KLab/MessageBuses/Tests/MessageBusTests.cs) for (advanced) examples.
+See [here](./Runtime/KLab/MessageBuses/MessageBus.cs#L90) for bus types available.
 
-If you want to create a non-global message bus, simply instantiate it on your own instead of getting the global singleton through ```MessageBus.GetBus<T>()```.
+
+### Advanced Usage
+
+#### Setting Initial Container Capacities
+
+You can set initial capacities of the underlying containers used by a bus
+by decorating the bus with [options](./Runtime/KLab/MessageBuses/MessageBus.cs#L25).
+
+```cs
+using KLab.MessageBuses;
+
+
+[MessageBusOptions(connectionsCapacity : 1024)]
+public sealed class MyMessageBus : MessageBus<string> {}
+```
+
+#### Finding All Connection Propertiess For Later Query
+
+See [here](./Examples/KLab/MessageBuses/AdvancedExamples.cs#L32).
+
+
+#### Finding All Waive Methods For Later Invokation
+
+See [here](./Examples/KLab/MessageBuses/AdvancedExamples.cs#L106).
+
+
+#### Creating A Non-global Bus
+
+If you want to create a non-global message bus,
+simply instantiate the message bus class directly
+instead of getting the global singleton through ```MessageBus.GetBus<T>()```.
 
 
 ## Importing Into Unity
 
-The library can be imported easily as a Unity package. It doesn't have any dependencies on other packages.
+The library can be imported easily as a Unity package.
+It doesn't have any dependencies on other packages.
 
 
 ## Feedback
